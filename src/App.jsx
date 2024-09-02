@@ -1,11 +1,12 @@
-
+import ExpenseItem from "./Components/ExpenseItem"
+import { expenses } from "./Data/expense"
 
 function App() {
 
 
   return (
     <>
-      <h1 className="text-sm font-serif">React Project</h1>
+      <ExpenseItem />
     </>
   )
 }

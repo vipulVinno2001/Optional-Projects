@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const ExpenseForm = () => {
+const ExpenseForm = (onSaveExpenseData) => {
   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredAmount, setEnteredAmount] = useState("");
   const [enteredDate, setEnteredDate] = useState("");
@@ -9,42 +9,70 @@ const ExpenseForm = () => {
   //     enteredAmount: "",
   //     enteredDate: "",
   //   });
-  const titleChangeHandler = (e) => {
-    setEnteredTitle(e.target.value);
-    // setUserInput({
-    //     ...userInput,
-    //     enteredTitle:e.target.value,
+  // const titleChangeHandler = (e) => {
+  //   setEnteredTitle(e.target.value);
+  //   // setUserInput({
+  //   //     ...userInput,
+  //   //     enteredTitle:e.target.value,
 
-    // })
+  //   // })
 
-    // setUserInput((prevState) => {
-    //   return {
-    //     ...prevState,
-    //     enteredTitle: e.target.value,
-    //   };
-    // });
+  //   // setUserInput((prevState) => {
+  //   //   return {
+  //   //     ...prevState,
+  //   //     enteredTitle: e.target.value,
+  //   //   };
+  //   // });
+  // };
+
+  // const amountChnageHandler = (e) => {
+  //   setEnteredAmount(e.target.value);
+  //   // setUserInput({
+  //   //   ...userInput,
+  //   //   enteredAmount: e.target.value,
+  //   // });
+  // };
+
+  // const dateChangeHandler = (e) => {
+  //   setEnteredDate(e.target.value);
+  //   // setUserInput({
+  //   //   ...userInput,
+  //   //   enteredDate: e.target.value,
+  //   // });
+  // };
+
+  const inputhandler = (identifier, value) => {
+    if (identifier === "title") {
+      setEnteredTitle(value);
+    } else if (identifier === "amount") {
+      setEnteredAmount(value);
+    } else {
+      setEnteredDate(new Date(value));
+    }
   };
 
-  const amountChnageHandler = (e) => {
-    setEnteredAmount(e.target.value);
-    // setUserInput({
-    //   ...userInput,
-    //   enteredAmount: e.target.value,
-    // });
-  };
+  const submitHandler = (event) => {
+    event.preventDefault();
+    const expenseData = {
+      title:enteredTitle,
+      amount:enteredAmount,
+      date:enteredDate
+    }
 
-  const dateChangeHandler = (e) => {
-    setEnteredDate(e.target.value);
-    // setUserInput({
-    //   ...userInput,
-    //   enteredDate: e.target.value,
-    // });
+
+ //console.log(expenseData)
+ onSaveExpenseData.onSaveExpenseData(expenseData)
+ setEnteredAmount('');
+ setEnteredTitle('');
+ setEnteredDate('')
   };
+  
   return (
     <div className="flex  justify-center p-6 ">
       <form
         className="bg-blue-900 rounded-2xl p-10 flex flex-col   gap-4"
         action=""
+        onSubmit={submitHandler}
       >
         <div className="flex">
           <div className="">
@@ -54,7 +82,8 @@ const ExpenseForm = () => {
             <input
               className="rounded-lg p-1 text-black font-semibold bg-slate-400 border-1 border-black"
               type="text"
-              onChange={titleChangeHandler}
+              value={enteredTitle}
+              onChange={(event) => inputhandler("title", event.target.value)}
             />
           </div>
           <div>
@@ -66,7 +95,8 @@ const ExpenseForm = () => {
               type="number"
               min="0.01"
               step="0.01"
-              onChange={amountChnageHandler}
+              value={enteredAmount}
+              onChange={(event) => inputhandler("amount", event.target.value)}
             />
           </div>
           <div>
@@ -78,7 +108,8 @@ const ExpenseForm = () => {
               type="date"
               min="2019-01-01"
               max="2022-12-31"
-              onChange={dateChangeHandler}
+              value={enteredDate}
+              onChange={(event) => inputhandler("date", event.target.value)}
             />
           </div>
         </div>

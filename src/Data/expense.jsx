@@ -1,4 +1,4 @@
- export const expenses = [
+ export const expense = [
     {
       id: 'e1',
       title: 'Toilet Paper',

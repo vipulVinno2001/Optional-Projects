@@ -1,9 +1,11 @@
+import { useState } from "react";
 import ExpenseItem from "./Components/ExpenseItem";
+import FilterExpense from "./Components/FilteredData/FilterExpense";
 import NewExp from "./Components/NewExp/NewExp";
-//import { expenses } from "./Data/expense"
+//import { expense } from "./Data/expense"
 
-function App() {
-  const expenses = [
+
+ const expense = [
     {
       id: "e1",
       title: "Toilet Paper",
@@ -24,14 +26,32 @@ function App() {
       date: new Date(2021, 5, 12),
     },
   ];
+function App() {
+  const [expenses , setExpenses] = useState(expense)
+ 
+
+  const addExpenseHandler = expense  => {
+         console.log(expense)
+         setExpenses(prevExpenses => {
+          return [expense , ...prevExpenses]
+         })
+  }
 
   return (
     <div className="bg-gradient-to-t from-blue-950 to-blue-400 h-screen">
-      <NewExp />
-      <ExpenseItem expense={expenses[0]} />
+      <NewExp onAddExpense = {addExpenseHandler} />
+      <FilterExpense />
+      {
+        expenses.map(expense =>{
+          return(
+            <ExpenseItem key = {expense.id} expense = {expense} />
+          )
+        })
+      }
+      {/* <ExpenseItem expense={expenses[0]} />
       <ExpenseItem expense={expenses[1]} />
       <ExpenseItem expense={expenses[2]} />
-      <ExpenseItem expense={expenses[3]} />
+      <ExpenseItem expense={expenses[3]} /> */}
     </div>
   );
 }
